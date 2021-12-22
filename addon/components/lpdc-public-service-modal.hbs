@@ -3,7 +3,7 @@
   @size="large"
   @modalTitle="Define public service"
   @modalOpen={{@modalOpen}}
-  @closeModal={{@closeModal}} as |Modal| >
+  @closeModal={{this.closeModal}} as |Modal| >
   {{#if this.showTable}}
     <Modal.Body>
       <div class="au-c-body-container">

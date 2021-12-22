@@ -44,6 +44,13 @@ export default class LpdcPublicServiceModalComponent extends Component {
   }
 
   @action
+  closeModal() {
+    this.selectedService = null;
+    this.showTable = true;
+    this.args.closeModal();
+  }
+
+  @action
   extend(service) {
     this.selectedService = service;
     this.showTable = false;
@@ -65,7 +72,7 @@ export default class LpdcPublicServiceModalComponent extends Component {
       cost: this.cost,
       availability: { from: this.from, to: this.to },
     });
-    this.args.closeModal();
+    this.closeModal();
   }
 
   insertLPDCRules(service, params = {}) {
