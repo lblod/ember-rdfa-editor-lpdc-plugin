@@ -117,7 +117,7 @@ export default class LpdcPublicServiceModalComponent extends Component {
       articleNumber++;
     }
     if (params.availability?.from) {
-      const availability = `Dit reglement treedt in werking op ${params.availability.from}, en is geldig ${params.availability.to ? `tot ${params.availability.to}` : "voor onbepaalde duur"}.`;
+      const availability = `Dit reglement treedt in werking op ${params.availability.from.toLocaleString('nl-BE')}, en is geldig ${params.availability.to ? `tot ${params.availability.to.toLocaleString('nl-BE')}` : "voor onbepaalde duur"}.`;
       controller.executeCommand('insert-article', controller, articleNumber, availability);
     }
   }
