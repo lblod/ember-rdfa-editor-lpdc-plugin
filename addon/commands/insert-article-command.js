@@ -7,7 +7,7 @@ export default class InsertArticleCommand {
     return true;
   }
 
-  execute(controller, content) {
+  execute(controller, articleNumber, content) {
     const limitedDatastore = controller.datastore.limitToRange(
       controller.selection.lastRange,
       'rangeIsInside'
@@ -32,7 +32,7 @@ export default class InsertArticleCommand {
 
     const articleHtml = `
       <div property="eli:has_part" prefix="mobiliteit: https://data.vlaanderen.be/ns/mobiliteit#" typeof="besluit:Artikel" resource="http://data.lblod.info/artikels/${uuid()}">
-        <div property="eli:number" datatype="xsd:string">Artikel <span class="mark-highlight-manual">nummer</span></div>
+        <div property="eli:number" datatype="xsd:string">Artikel ${articleNumber}</div>
         <span style="display:none;" property="eli:language" resource="http://publications.europa.eu/resource/authority/language/NLD" typeof="skos:Concept">&nbsp;</span>
         <div propert="prov:value" datatype="xsd:string">
         ${content}
