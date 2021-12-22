@@ -1,3 +1,4 @@
+import uuid from 'ember-rdfa-editor-lpdc-plugin/utils/uuid';
 
 export default class InsertArticleCommand {
   name = 'insert-article';
@@ -41,3 +42,4 @@ export default class InsertArticleCommand {
     controller.executeCommand('insert-html', articleHtml, range);
   }
 }
+
