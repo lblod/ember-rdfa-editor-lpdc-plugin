@@ -4,19 +4,95 @@
   @modalTitle="Define public service"
   @modalOpen={{@modalOpen}}
   @closeModal={{@closeModal}} as |Modal| >
-  <Modal.Body>
-    <div class="au-c-body-container">
-      <div class="au-o-box au-u-background-gray-100">
-        <div class="au-o-grid au-o-grid--tiny au-o-grid--bottom">
-          <div class="au-o-grid__item au-u-1-5">
+  {{#if this.showTable}}
+    <Modal.Body>
+      <div class="au-c-body-container">
+        <div class="au-o-box au-u-background-gray-100">
+          <div class="au-o-grid au-o-grid--tiny au-o-grid--bottom">
+            <div class="au-o-grid__item au-u-1-5">
+              Select a public service to extend
+            </div>
+          </div>
+        </div>
+        <div class="au-c-body-container">
+          <AuDataTable @isLoading={{@isLoading}} @noDataMessage="No data" as |table|>
+            <table.content as |c|>
+              <c.header>
+                <th class="data-table__header-title">Name</th>
+                <th class="data-table__header-title"></th>
+              </c.header>
+              {{#if c.body}}
+              <tbody>
+                {{#if @isLoading}}
+                  <tr>
+                    <td colspan="100%" class="is-loading-data">
+                      <AuLoader />
+                      <AuHelpText>Loading...</AuHelpText>
+                    </td>
+                  </tr>
+                {{else}}
+                  {{#each this.filteredServices as |row|}}
+                      <tr class="au-c-data-table__detail">
+                        <td>
+                          <p>{{row.Naam}}</p>
+                        </td>
+                        <td>
+                          <AuButton {{on 'click' (fn this.extend row)}}>
+                            Extend
+                          </AuButton>
+                        </td>
+                      </tr>
+                  {{else}}
+                    <tr>
+                      <td colspan="5" class="no-data-message"><p>No public services found.</p></td>
+                    </tr>
+                  {{/each}}
+                {{/if}}
+              </tbody>
+              {{/if}}
+            </table.content>
+          </AuDataTable>
+        </div>
+      </div>
+    </Modal.Body>
+  {{else}}
+    <Modal.Body>
+      <div class="au-c-body-container">
+        <div class="au-o-box au-u-background-gray-100">
+          <div class="au-o-grid au-o-grid--tiny au-o-grid--bottom">
+            <div class="au-o-grid__item au-u-1-5">
+              Add extra information
+            </div>
+          </div>
+        </div>
+        <div class="au-c-body-container">
+          <div class="au-c-form">
+            <div>
+              <AuLabel>Cost</AuLabel>
+              <AuInput type='text' @value={{mut this.cost}}/>
+            </div>
+            <div>
+              <AuLabel for="from">Available from</AuLabel>
+              <AuDatePicker
+                @id="from"
+                @onChange={{fn this.changeFromDate}}
+                @value={{this.from}}
+              />
+            </div>
+            <div>
+              <AuLabel for="to">Available to</AuLabel>
+              <AuDatePicker
+                @id=to
+                @onChange={{fn this.changeToDate}}
+                @value={{this.to}}
+              />
+            </div>
+            <AuButton {{on 'click' this.insert}}>
+              Insert
+            </AuButton>
           </div>
         </div>
       </div>
-      <div class="au-c-body-container">
-        {{#each this.filteredServices as |service|}}
-          {{log service}}
-        {{/each}}
-      </div>
-    </div>
-  </Modal.Body>
+    </Modal.Body>
+  {{/if}}
 </AuModal>
