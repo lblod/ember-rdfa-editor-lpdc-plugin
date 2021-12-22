@@ -69,7 +69,7 @@ export default class LpdcPublicServiceModalComponent extends Component {
     this.args.closeModal();
   }
 
-  insertLPDCRules(service, params) {
+  insertLPDCRules(service, params = {}) {
     const publicServiceURI = 'http://data.lblod.info/public-services/' + uuid();
     const goal = `<strong>Doel</strong>
            <div resource="${publicServiceURI}" typeof="http://purl.org/vocab/cpsv#PublicService">
@@ -85,11 +85,34 @@ export default class LpdcPublicServiceModalComponent extends Component {
     const targetAudience = `
            <strong>Doelgroep</strong>
            <div resource="${publicServiceURI}" typeof="http://purl.org/vocab/cpsv#PublicService">
-<p>De doelgroepen van <span class="mark-highlight-manual">de/het</span> ${service["Titel"]} zijn ${audiences.map((x) => `<a property="http://data.europa.eu/m8g/http://data.europa.eu/m8g/isClassifiedBy" href="${x.uri}">${x.title}</a>`).join(',')}
+<p>De doelgroepen van <span class="mark-highlight-manual">de/het</span> ${service["Titel"]} zijn ${audiences.map((x) => `<a property="http://data.europa.eu/m8g/http://data.europa.eu/m8g/isClassifiedBy" href="${x.uri}">${x.title}</a>`).join(', ')}
             </div>
+`;
+    const ruleURI = 'http://data.lblod.info/rules/' + uuid();
+    const rules = `
+           <strong>Regels</strong>
+           <div resource="${publicServiceURI}" typeof="http://purl.org/vocab/cpsv#PublicService">
+<div property="http://purl.org/vocab/cpsv#follows" resource="${ruleURI}" typeof="http://purl.org/vocab/cpsv#Rule"><p property="http://purl.org/dc/terms/description">${service['Voorwaarden'] ? service['Voorwaarden'] : `<span class="mark-highlight-manual">beschrijf de procedure die gevolgt dient te worden</span>`}</p></div>
+</div>
 `;
     const controller = this.args.controller;
     controller.executeCommand('insert-article', controller, 1, goal);
     controller.executeCommand('insert-article', controller, 2, targetAudience);
+    controller.executeCommand('insert-article', controller, 3, rules);
+    const articleNumber= 4;
+    if (params.cost) {
+      const cost = `
+           <strong>Kosten</strong>
+           <div resource="${publicServiceURI}" typeof="http://purl.org/vocab/cpsv#PublicService">
+<div property="http://data.europa.eu/m8g/hasCost" resource="${ruleURI}" typeof="https://data.europa.eu/m8g/Cost">Voor ${service.Titel} wordt een kost van <span property="https://data.europa.eu/m8g/value">${params.cost}</span> <span property="https://data.europa.eu/m8g/currency" resource="http://publications.europa.eu/resource/authority/currency/EUR">EUR</span> voorzien.</div>
+</div>
+`;
+      controller.executeCommand('insert-article', controller, articleNumber, cost);
+      articleNumber++;
+    }
+    if (params.availability?.from) {
+      const availability = `Dit reglement treedt in werking op ${params.availability.from}, en is geldig ${params.availability.to ? `tot ${params.availability.to}` : "voor onbepaalde duur"}.`;
+      controller.executeCommand('insert-article', controller, articleNumber, availability);
+    }
   }
 }
