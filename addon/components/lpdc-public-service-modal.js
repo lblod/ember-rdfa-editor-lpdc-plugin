@@ -65,6 +65,8 @@ export default class LpdcPublicServiceModalComponent extends Component {
     console.log(this.cost);
     console.log(this.from);
     console.log(this.to);
+    this.insertLPDCRules(this.selectedService, {cost: this.cost, availability: { from: this.from, to: this.to}});
+    this.args.closeModal();
   }
 
   insertLPDCRules(service, params) {
