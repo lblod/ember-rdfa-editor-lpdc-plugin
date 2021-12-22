@@ -61,7 +61,10 @@ export default class LpdcPublicServiceModalComponent extends Component {
 
   @action
   insert() {
-    this.insertLPDCRules(this.selectedService, this.cost, this.from, this.to);
+    this.insertLPDCRules(this.selectedService, {
+      cost: this.cost,
+      availability: { from: this.from, to: this.to },
+    });
     this.args.closeModal();
   }
 
@@ -84,7 +87,8 @@ export default class LpdcPublicServiceModalComponent extends Component {
 <p>De doelgroepen van <span class="mark-highlight-manual">de/het</span> ${service["Titel"]} zijn ${audiences.map((x) => `<a property="http://data.europa.eu/m8g/http://data.europa.eu/m8g/isClassifiedBy" href="${x.uri}">${x.title}</a>`).join(',')}
             </div>
 `;
-    this.args.controller.executeCommand('insert-article', goal);
-    this.args.controller.executeCommand('insert-article', targetAudience);
+    const controller = this.args.controller;
+    controller.executeCommand('insert-article', controller, 1, goal);
+    controller.executeCommand('insert-article', controller, 2, targetAudience);
   }
 }
