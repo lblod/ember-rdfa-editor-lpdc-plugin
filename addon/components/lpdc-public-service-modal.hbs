@@ -13,6 +13,9 @@
         </div>
       </div>
       <div class="au-c-body-container">
+        {{#each this.filteredServices as |service|}}
+          {{log service}}
+        {{/each}}
       </div>
     </div>
   </Modal.Body>
