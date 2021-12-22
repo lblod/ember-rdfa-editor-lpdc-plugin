@@ -36,7 +36,7 @@
     "ember-cli-htmlbars": "^5.7.1",
     "uuid": "^8.3.2",
     "webpack": "^5.65.0",
-    "xml-formatter": "^2.6.0"
+    "xml-formatter": "^2.5.0"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",

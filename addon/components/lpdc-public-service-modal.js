@@ -21,6 +21,12 @@ const AUDIENCE_TO_URI_MAP = {
 
 export default class LpdcPublicServiceModalComponent extends Component {
   @tracked serviceFilter;
+  @tracked showTable = true;
+  @tracked selectedService;
+  @tracked cost;
+  @tracked from;
+  @tracked to;
+
   services;
   constructor() {
     super(...arguments);
@@ -38,6 +44,29 @@ export default class LpdcPublicServiceModalComponent extends Component {
   }
 
   @action
+  extend(service) {
+    this.selectedService = service;
+    this.showTable = false;
+  }
+
+  @action
+  changeFromDate(isoDate, date) {
+    this.from = date;
+  }
+
+  @action
+  changeToDate(isoDate, date) {
+    this.to = date;
+  }
+
+  @action
+  insert() {
+    console.log(this.selectedService);
+    console.log(this.cost);
+    console.log(this.from);
+    console.log(this.to);
+  }
+
   insertLPDCRules(service, params) {
     const publicServiceURI = 'http://data.lblod.info/public-services/' + uuid();
     const goal = `<strong>Doel</strong>
