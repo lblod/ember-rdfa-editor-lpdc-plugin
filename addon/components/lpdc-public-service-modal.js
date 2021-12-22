@@ -98,7 +98,7 @@ export default class LpdcPublicServiceModalComponent extends Component {
     controller.executeCommand('insert-article', controller, 1, goal);
     controller.executeCommand('insert-article', controller, 2, targetAudience);
     controller.executeCommand('insert-article', controller, 3, rules);
-    const articleNumber= 4;
+    let articleNumber= 4;
     if (params.cost) {
       const cost = `
            <strong>Kosten</strong>
