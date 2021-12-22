@@ -72,7 +72,17 @@ export default class LpdcPublicServiceModalComponent extends Component {
       cost: this.cost,
       availability: { from: this.from, to: this.to },
     });
+    this.backToTableView();
     this.closeModal();
+  }
+
+  @action
+  backToTableView() {
+    this.showTable = true;
+    this.selectedService = null;
+    this.cost = null;
+    this.from = null;
+    this.to = null;
   }
 
   insertLPDCRules(service, params = {}) {
