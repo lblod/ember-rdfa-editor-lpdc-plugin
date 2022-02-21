@@ -5,18 +5,18 @@ import { getOwner } from '@ember/application';
 import uuid from 'ember-rdfa-editor-lpdc-plugin/utils/uuid';
 
 const AUDIENCE_TO_URI_MAP = {
-  'Burger': {
+  Burger: {
     uri: 'http://data.lblod.info/public-services/13643e20-631a-11ec-90d6-0242ac120003',
-    name: 'burgers'
+    name: 'burgers',
   },
-  'Onderneming': {
-    uri: 'http://data.lblod.info/public-services/136440dc-631a-11ec-90d6-0242ac120003' ,
-    name: 'ondernemingen'
+  Onderneming: {
+    uri: 'http://data.lblod.info/public-services/136440dc-631a-11ec-90d6-0242ac120003',
+    name: 'ondernemingen',
   },
-  'Organisatie': {
+  Organisatie: {
     uri: 'http://data.lblod.info/public-services/13644212-631a-11ec-90d6-0242ac120003',
-    name: 'organisaties'
-  }
+    name: 'organisaties',
+  },
 };
 
 export default class LpdcPublicServiceModalComponent extends Component {
@@ -89,33 +89,44 @@ export default class LpdcPublicServiceModalComponent extends Component {
     const publicServiceURI = 'http://data.lblod.info/public-services/' + uuid();
     const goal = `<strong>Doel</strong>
            <div resource="${publicServiceURI}" typeof="http://purl.org/vocab/cpsv#PublicService">
-             <p property="dct:description">${service["Inhoud"]}</p>
+             <p property="dct:description">${service['Inhoud']}</p>
             </div>
 `;
-    const audiences = service["Doelgroep"].split(", ").map((s) => {
+    const audiences = service['Doelgroep'].split(', ').map((s) => {
       return {
-        title: AUDIENCE_TO_URI_MAP[s]["name"],
-        uri: AUDIENCE_TO_URI_MAP[s]["uri"]
+        title: AUDIENCE_TO_URI_MAP[s]['name'],
+        uri: AUDIENCE_TO_URI_MAP[s]['uri'],
       };
     });
     const targetAudience = `
            <strong>Doelgroep</strong>
            <div resource="${publicServiceURI}" typeof="http://purl.org/vocab/cpsv#PublicService">
-<p>De doelgroepen van <span class="mark-highlight-manual">de/het</span> ${service["Titel"]} zijn ${audiences.map((x) => `<a property="http://data.europa.eu/m8g/http://data.europa.eu/m8g/isClassifiedBy" href="${x.uri}">${x.title}</a>`).join(', ')}
+<p>De doelgroepen van <span class="mark-highlight-manual">de/het</span> ${
+      service['Titel']
+    } zijn ${audiences
+      .map(
+        (x) =>
+          `<a property="http://data.europa.eu/m8g/http://data.europa.eu/m8g/isClassifiedBy" href="${x.uri}">${x.title}</a>`
+      )
+      .join(', ')}
             </div>
 `;
     const ruleURI = 'http://data.lblod.info/rules/' + uuid();
     const rules = `
            <strong>Regels</strong>
            <div resource="${publicServiceURI}" typeof="http://purl.org/vocab/cpsv#PublicService">
-<div property="http://purl.org/vocab/cpsv#follows" resource="${ruleURI}" typeof="http://purl.org/vocab/cpsv#Rule"><p property="http://purl.org/dc/terms/description">${service['Voorwaarden'] ? service['Voorwaarden'] : `<span class="mark-highlight-manual">beschrijf de procedure die gevolgt dient te worden</span>`}</p></div>
+<div property="http://purl.org/vocab/cpsv#follows" resource="${ruleURI}" typeof="http://purl.org/vocab/cpsv#Rule"><p property="http://purl.org/dc/terms/description">${
+      service['Voorwaarden']
+        ? service['Voorwaarden']
+        : `<span class="mark-highlight-manual">beschrijf de procedure die gevolgt dient te worden</span>`
+    }</p></div>
 </div>
 `;
     const controller = this.args.controller;
     controller.executeCommand('insert-article', controller, 1, goal);
     controller.executeCommand('insert-article', controller, 2, targetAudience);
     controller.executeCommand('insert-article', controller, 3, rules);
-    let articleNumber= 4;
+    let articleNumber = 4;
     if (params.cost) {
       const cost = `
            <strong>Kosten</strong>
@@ -123,12 +134,28 @@ export default class LpdcPublicServiceModalComponent extends Component {
 <div property="http://data.europa.eu/m8g/hasCost" resource="${ruleURI}" typeof="https://data.europa.eu/m8g/Cost">Voor ${service.Titel} wordt een kost van <span property="https://data.europa.eu/m8g/value">${params.cost}</span> <span property="https://data.europa.eu/m8g/currency" resource="http://publications.europa.eu/resource/authority/currency/EUR">EUR</span> voorzien.</div>
 </div>
 `;
-      controller.executeCommand('insert-article', controller, articleNumber, cost);
+      controller.executeCommand(
+        'insert-article',
+        controller,
+        articleNumber,
+        cost
+      );
       articleNumber++;
     }
     if (params.availability?.from) {
-      const availability = `Dit reglement treedt in werking op ${params.availability.from.toLocaleString('nl-BE')}, en is geldig ${params.availability.to ? `tot ${params.availability.to.toLocaleString('nl-BE')}` : "voor onbepaalde duur"}.`;
-      controller.executeCommand('insert-article', controller, articleNumber, availability);
+      const availability = `Dit reglement treedt in werking op ${params.availability.from.toLocaleString(
+        'nl-BE'
+      )}, en is geldig ${
+        params.availability.to
+          ? `tot ${params.availability.to.toLocaleString('nl-BE')}`
+          : 'voor onbepaalde duur'
+      }.`;
+      controller.executeCommand(
+        'insert-article',
+        controller,
+        articleNumber,
+        availability
+      );
     }
   }
 }

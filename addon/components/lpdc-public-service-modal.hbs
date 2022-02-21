@@ -80,15 +80,15 @@
               <AuLabel for="from">Available from</AuLabel>
               <AuDatePicker
                 @id="from"
-                @onChange={{fn this.changeFromDate}}
+                @onChange={{this.changeFromDate}}
                 @value={{this.from}}
               />
             </div>
             <div>
               <AuLabel for="to">Available to</AuLabel>
               <AuDatePicker
-                @id=to
-                @onChange={{fn this.changeToDate}}
+                @id="to"
+                @onChange={{this.changeToDate}}
                 @value={{this.to}}
               />
             </div>

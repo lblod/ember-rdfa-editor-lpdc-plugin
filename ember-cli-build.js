@@ -4,13 +4,13 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function (defaults) {
   let app = new EmberAddon(defaults, {
-     sassOptions: {
+    sassOptions: {
       sourceMapEmbed: true,
       includePaths: [
         'node_modules/@appuniversum/appuniversum',
         'node_modules/@appuniversum/ember-appuniversum/app/styles',
-      ]
-     }
+      ],
+    },
     // Add options here
   });
 
