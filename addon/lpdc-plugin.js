@@ -30,9 +30,7 @@ export default class LpdcPlugin {
 
   initialize(controller) {
     this.controller = controller;
-    controller.registerCommand(
-      new InsertArticleCommand()
-    );
+    controller.registerCommand(new InsertArticleCommand());
     controller.registerWidget({
       componentName: 'lpdc-plugin-card',
       identifier: 'lpdc-plugin/card',

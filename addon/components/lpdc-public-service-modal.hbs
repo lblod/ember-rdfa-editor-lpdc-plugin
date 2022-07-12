@@ -1,7 +1,7 @@
 <AuModal
   class="au-c-modal--flush"
   @size="large"
-  @modalTitle="Define public service"
+  @title="Define public service"
   @modalOpen={{@modalOpen}}
   @closeModal={{this.closeModal}} as |Modal| >
   {{#if this.showTable}}
@@ -80,15 +80,15 @@
               <AuLabel for="from">Available from</AuLabel>
               <AuDatePicker
                 @id="from"
-                @onChange={{fn this.changeFromDate}}
+                @onChange={{this.changeFromDate}}
                 @value={{this.from}}
               />
             </div>
             <div>
               <AuLabel for="to">Available to</AuLabel>
               <AuDatePicker
-                @id=to
-                @onChange={{fn this.changeToDate}}
+                @id="to"
+                @onChange={{this.changeToDate}}
                 @value={{this.to}}
               />
             </div>

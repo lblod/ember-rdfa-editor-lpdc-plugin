@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 
 export default class ApplicationController extends Controller {
   plugins = ['besluit'];
-  
+
   @action
   rdfaEditorInit(controller) {
     const presetContent = `<div property="prov:generated" resource="http://data.lblod.info/id/besluiten/ea1d2b7e-cc37-4b1d-b2a7-4ce9f30ee0b4" typeof="besluit:Besluit https://data.vlaanderen.be/id/concept/BesluitType/256bd04a-b74b-4f2a-8f5d-14dda4765af9 ext:BesluitNieuweStijl">

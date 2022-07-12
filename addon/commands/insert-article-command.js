@@ -42,4 +42,3 @@ export default class InsertArticleCommand {
     controller.executeCommand('insert-html', articleHtml, range);
   }
 }
-
